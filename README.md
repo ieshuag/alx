@@ -5,14 +5,23 @@ You'll need
 Packages: linux & linux-header WITH MATCHING VERSIONS
 
 Then get into the directory with your alx sources and do:
-```
-make -C /usr/lib/modules/$(uname -r)/build/ M=$(pwd) modules
-make -C /usr/lib/modules/$(uname -r)/build/ M=$(pwd) modules_install
-cp alx.ko /lib/modules/$(uname -r)/kernel/drivers/net/ethernet/atheros/alx/alx.ko
-sudo rmmod alx
-sudo insmod /lib/modules/$(uname -r)/kernel/drivers/net/ethernet/atheros/alx/alx.ko
-sudo depmod
 
+Copy the kernel module source code into the /usr/src/ directory.
+```
+sudo mkdir /usr/src/alx-4.20
+sudo cp -Rv . /usr/src/alx-4.20
+```
+Add the kernel module to the DKMS tree so that it is tracked by DKMS.
+```
+sudo dkms add alx-4.20
+```
+Build the kernel module using DKMS. If the build encounters errors, you may need to edit the dkms.conf file.
+```
+sudo dkms build alx-4.20
+```
+Install the kernel module using DKMS.
+```
+sudo dkms install alx-4.20
 ```
 Tun and done!
 
